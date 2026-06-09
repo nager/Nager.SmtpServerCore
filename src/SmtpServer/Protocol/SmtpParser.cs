@@ -1308,7 +1308,7 @@ namespace SmtpServer.Protocol
             var token = reader.Peek();
             while ((token.Kind == TokenKind.Text || token.Kind == TokenKind.Number) && hexLength < 4)
             {
-                if (token.Kind == TokenKind.Text && IsHex(ref token) == false)
+                if (token.Kind == TokenKind.Text && IsHex(token) == false)
                 {
                     return false;
                 }
@@ -1320,7 +1320,7 @@ namespace SmtpServer.Protocol
 
             return hexLength > 0 && hexLength <= 4;
 
-            static bool IsHex(ref Token token)
+            static bool IsHex(Token token)
             {
                 var span = token.Text;
 

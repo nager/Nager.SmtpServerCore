@@ -56,7 +56,7 @@ namespace SmtpServer.IO
                     return false;
                 }
 
-                if (TryMatchAcrossBoundary(ref span, ref next, ref sequence, out index))
+                if (TryMatchAcrossBoundary(span, next, sequence, out index))
                 {
                     head = source.GetPosition(index, head);
                     tail = source.GetPosition(sequence.Length - (span.Length - index), tail);
@@ -79,13 +79,13 @@ namespace SmtpServer.IO
             }
         }
 
-        static bool TryMatchAcrossBoundary(ref ReadOnlySpan<byte> previous, ref ReadOnlySpan<byte> next, ref ReadOnlySpan<byte> sequence, out int index)
+        static bool TryMatchAcrossBoundary(ReadOnlySpan<byte> previous, ReadOnlySpan<byte> next, ReadOnlySpan<byte> sequence, out int index)
         {
             // we will only call this if a complete match in the previous span isnt found 
             // so we only need to start matching from one byte short of the full sequence
             var partial = sequence.Slice(0, sequence.Length - 1);
 
-            if (TryMatchEnd(ref previous, ref partial, out index))
+            if (TryMatchEnd(previous, partial, out index))
             {
                 partial = sequence.Slice(index);
 
@@ -100,7 +100,7 @@ namespace SmtpServer.IO
             return false;
         }
 
-        static bool TryMatchEnd(ref ReadOnlySpan<byte> span, ref ReadOnlySpan<byte> sequence, out int index)
+        static bool TryMatchEnd(ReadOnlySpan<byte> span, ReadOnlySpan<byte> sequence, out int index)
         {
             var partial = sequence;
 
@@ -140,7 +140,7 @@ namespace SmtpServer.IO
             {
                 var span = buffer.First.Span;
 
-                return text.Length == span.Length && CaseInsensitiveStringEquals(ref span, ref text, 0);
+                return text.Length == span.Length && CaseInsensitiveStringEquals(span, text, 0);
             }
 
             var i = 0;
@@ -150,7 +150,7 @@ namespace SmtpServer.IO
             {
                 var span = memory.Span;
 
-                if (CaseInsensitiveStringEquals(ref span, ref text, i) == false)
+                if (CaseInsensitiveStringEquals(span, text, i) == false)
                 {
                     return false;
                 }
@@ -161,7 +161,7 @@ namespace SmtpServer.IO
             return i == text.Length;
         }
 
-        static bool CaseInsensitiveStringEquals(ref ReadOnlySpan<byte> span, ref Span<char> text, int offset)
+        static bool CaseInsensitiveStringEquals(ReadOnlySpan<byte> span, ReadOnlySpan<char> text, int offset)
         {
             for (var i = 0; i < span.Length; i++)
             {
@@ -176,7 +176,7 @@ namespace SmtpServer.IO
             return true;
         }
 
-        internal static bool IsHex(this ref ReadOnlySpan<byte> buffer)
+        internal static bool IsHex(this ReadOnlySpan<byte> buffer)
         {
             for (var i = 0; i < buffer.Length; i++)
             {
