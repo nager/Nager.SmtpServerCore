@@ -60,7 +60,7 @@ namespace SmtpServer
         /// <returns>The endpoint builder to continue building on.</returns>
         public EndpointDefinitionBuilder Port(int port)
         {
-            _setters.Add(definition => definition.Endpoint = new IPEndPoint(IPAddress.Any, port));
+            _setters.Add(definition => definition.Endpoint = new IPEndPoint(IPAddress.IPv6Any, port));
 
             return this;
         }

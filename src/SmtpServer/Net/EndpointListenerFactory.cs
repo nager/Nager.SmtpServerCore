@@ -27,6 +27,7 @@ namespace SmtpServer.Net
         public virtual IEndpointListener CreateListener(IEndpointDefinition endpointDefinition)
         {
             var tcpListener = new TcpListener(endpointDefinition.Endpoint);
+            tcpListener.Server.DualMode = true;
             tcpListener.Start();
 
             var endpointEventArgs = new EndpointEventArgs(endpointDefinition, tcpListener.LocalEndpoint);

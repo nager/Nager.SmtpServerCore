@@ -43,7 +43,12 @@ namespace SmtpServer.Net
         /// <returns>The securable pipe from the endpoint.</returns>
         public async Task<ISecurableDuplexPipe> GetPipeAsync(ISessionContext context, CancellationToken cancellationToken)
         {
+#if NET10_0_OR_GREATER
+            var tcpClient = await _tcpListener.AcceptTcpClientAsync(cancellationToken).ConfigureAwait(false);
+#else
             var tcpClient = await _tcpListener.AcceptTcpClientAsync().WithCancellation(cancellationToken).ConfigureAwait(false);
+#endif
+
             cancellationToken.ThrowIfCancellationRequested();
 
             context.Properties.Add(LocalEndPointKey, _tcpListener.LocalEndpoint);
