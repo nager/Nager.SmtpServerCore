@@ -11,7 +11,6 @@ using SampleApp.Examples;
 using SmtpServer;
 using SmtpServer.IO;
 using SmtpServer.Protocol;
-using SmtpServer.Tests;
 using SmtpServer.Text;
 using SmtpServer.ComponentModel;
 using SmtpServer.Net;

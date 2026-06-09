@@ -14,12 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="4.7.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="MailKit" Version="4.17.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SmtpServer.Tests\SmtpServer.Tests.csproj" />
     <ProjectReference Include="..\..\src\SmtpServer\SmtpServer.csproj" />
   </ItemGroup>
 
