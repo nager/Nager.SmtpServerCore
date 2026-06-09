@@ -1,4 +1,6 @@
 ﻿using SmtpServer;
+using System;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
 namespace SampleApp.Examples
@@ -7,6 +9,18 @@ namespace SampleApp.Examples
     {
         public static void Run()
         {
+            var rsa = RSA.Create(2048);
+
+            var certificateRequest = new CertificateRequest(
+                "CN=localhost",
+                rsa,
+                HashAlgorithmName.SHA256,
+                RSASignaturePadding.Pkcs1);
+
+            var certificate = certificateRequest.CreateSelfSigned(
+                DateTimeOffset.UtcNow.AddDays(-1),
+                DateTimeOffset.UtcNow.AddYears(1));
+
             var options = new SmtpServerOptionsBuilder()
                 .ServerName("SmtpServer SampleApp")
 
@@ -24,7 +38,7 @@ namespace SampleApp.Examples
                     builder
                         .Port(465)
                         .IsSecure(true) // indicates that the client will need to upgrade to SSL upon connection
-                        .Certificate(new X509Certificate2())) // requires a valid certificate to be configured
+                        .Certificate(certificate)) // requires a valid certificate to be configured
 
                 // Port 587 is the default port that should be used by modern mail
                 // clients. When a certificate is provided, the server will advertise
@@ -34,7 +48,7 @@ namespace SampleApp.Examples
                     builder
                         .Port(587)
                         .AllowUnsecureAuthentication(false) // using 'false' here means that the user cant authenticate unless the connection is secure
-                        .Certificate(new X509Certificate2())) // requires a valid certificate to be configured
+                        .Certificate(certificate)) // requires a valid certificate to be configured
 
                 .Build();
         }

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using SmtpServer.Protocol;
+using SmtpServer.Text;
+using System;
 using System.Buffers;
 using System.IO.Pipelines;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SmtpServer.Protocol;
-using SmtpServer.Text;
 
 namespace SmtpServer.IO
 {

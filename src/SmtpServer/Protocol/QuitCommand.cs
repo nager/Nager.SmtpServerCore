@@ -49,7 +49,7 @@ namespace SmtpServer.Protocol
                     }
                 }
 
-                throw ioException;
+                throw;
             }
 
             return true;

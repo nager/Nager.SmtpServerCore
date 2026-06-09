@@ -18,7 +18,7 @@ namespace SmtpServer.Benchmarks
             var summary = BenchmarkRunner.Run<ThroughputBenchmarks>(
                 ManualConfig
                     .Create(DefaultConfig.Instance)
-                    .With(ConfigOptions.DisableOptimizationsValidator));
+                    .WithOptions(ConfigOptions.DisableOptimizationsValidator));
         }
     }
 }

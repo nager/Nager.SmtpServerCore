@@ -1,12 +1,12 @@
-﻿using System;
+﻿using SmtpServer.Authentication;
+using SmtpServer.ComponentModel;
+using SmtpServer.IO;
+using System;
 using System.IO.Pipelines;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using SmtpServer.Authentication;
-using SmtpServer.ComponentModel;
-using SmtpServer.IO;
 
 namespace SmtpServer.Protocol
 {
@@ -170,6 +170,7 @@ namespace SmtpServer.Protocol
         /// Read a Base64 encoded line.
         /// </summary>
         /// <param name="reader">The pipe to read from.</param>
+        /// <param name="maxMessageSizeOptions">The max message size options</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The decoded Base64 string.</returns>
         static async Task<string> ReadBase64EncodedLineAsync(PipeReader reader, IMaxMessageSizeOptions maxMessageSizeOptions, CancellationToken cancellationToken)
