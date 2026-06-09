@@ -47,7 +47,7 @@ namespace SmtpServer.Tests
                 // assert
                 Assert.Single(MessageStore.Messages);
                 Assert.Equal("test1@test.com", MessageStore.Messages[0].Transaction.From.AsAddress());
-                Assert.Equal(1, MessageStore.Messages[0].Transaction.To.Count);
+                Assert.Single(MessageStore.Messages[0].Transaction.To);
                 Assert.Equal("test2@test.com", MessageStore.Messages[0].Transaction.To[0].AsAddress());
             }
         }
@@ -150,17 +150,17 @@ namespace SmtpServer.Tests
             using (CreateServer(c => c.CommandWaitTimeout(TimeSpan.FromSeconds(1))))
             {
                 var client = MailClient.Client();
-                client.NoOp();
+                client.NoOp(TestContext.Current.CancellationToken);
 
                 for (var i = 0; i < 5; i++)
                 {
-                    Task.Delay(TimeSpan.FromMilliseconds(250)).Wait();
-                    client.NoOp();
+                    Task.Delay(TimeSpan.FromMilliseconds(250), TestContext.Current.CancellationToken).Wait(TestContext.Current.CancellationToken);
+                    client.NoOp(TestContext.Current.CancellationToken);
                 }
 
-                Task.Delay(TimeSpan.FromSeconds(5)).Wait();
+                Task.Delay(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken).Wait(TestContext.Current.CancellationToken);
 
-                Assert.Throws<IOException>(() => client.NoOp());
+                Assert.Throws<IOException>(() => client.NoOp(TestContext.Current.CancellationToken));
             }
         }
 
@@ -220,10 +220,10 @@ namespace SmtpServer.Tests
 
             string smtpResponse = null;
 
-            _ = Task.Run (async() =>
+            _ = Task.Run(async () =>
             {
                 smtpResponse = await rawSmtpClient.WaitForDataAsync();
-            });
+            }, TestContext.Current.CancellationToken);
 
             var isSessionCancelled = false;
 
@@ -232,7 +232,7 @@ namespace SmtpServer.Tests
                 for (var i = 0; i < 1000; i++)
                 {
                     await rawSmtpClient.SendDataAsync("some text part ");
-                    await Task.Delay(100);
+                    await Task.Delay(100, TestContext.Current.CancellationToken);
                 }
             }
             catch (IOException)
@@ -268,9 +268,9 @@ namespace SmtpServer.Tests
             {
                 using var client = MailClient.Client();
 
-                Assert.Throws<ServiceNotAuthenticatedException>(() => client.Send(MailClient.Message()));
+                Assert.Throws<ServiceNotAuthenticatedException>(() => client.Send(MailClient.Message(), TestContext.Current.CancellationToken));
 
-                client.NoOp();
+                client.NoOp(TestContext.Current.CancellationToken);
             }
         }
 
@@ -284,10 +284,10 @@ namespace SmtpServer.Tests
             {
                 using var client = MailClient.Client();
 
-                Assert.Throws<ServiceNotAuthenticatedException>(() => client.Send(MailClient.Message()));
+                Assert.Throws<ServiceNotAuthenticatedException>(() => client.Send(MailClient.Message(), TestContext.Current.CancellationToken));
 
                 // no longer connected to this is invalid
-                Assert.ThrowsAny<Exception>(() => client.NoOp());
+                Assert.ThrowsAny<Exception>(() => client.NoOp(TestContext.Current.CancellationToken));
             }
         }
 
@@ -406,7 +406,7 @@ namespace SmtpServer.Tests
             using var tcpClient = new TcpClient(server, port);
             using var sslStream = new SslStream(tcpClient.GetStream(), false, new RemoteCertificateValidationCallback(ValidateServerCertificate), null);
 
-            await Task.Delay(sessionTimeout.Add(TimeSpan.FromSeconds(1)));
+            await Task.Delay(sessionTimeout.Add(TimeSpan.FromSeconds(1)), TestContext.Current.CancellationToken);
 
             var exception = await Assert.ThrowsAsync<IOException>(async () =>
             {
@@ -439,11 +439,11 @@ namespace SmtpServer.Tests
             {
                 var buffer = new byte[1024];
 
-                var welcomeByteCount = await sslStream.ReadAsync(buffer, 0, buffer.Length);
+                var welcomeByteCount = await sslStream.ReadAsync(buffer, TestContext.Current.CancellationToken);
 
-                var emptyResponseCount = await sslStream.ReadAsync(buffer, 0, buffer.Length);
+                var emptyResponseCount = await sslStream.ReadAsync(buffer, TestContext.Current.CancellationToken);
 
-                await Task.Delay(100); //Add a tolerance
+                await Task.Delay(100, TestContext.Current.CancellationToken); //Add a tolerance
                 stopwatch.Stop();
 
                 Assert.True(emptyResponseCount == 0, "Some data received");
