@@ -1,13 +1,11 @@
 ﻿using MailKit;
 using MailKit.Net.Smtp;
-using Nager.SmtpServerCore;
 using Nager.SmtpServerCore.Authentication;
 using Nager.SmtpServerCore.ComponentModel;
 using Nager.SmtpServerCore.Mail;
 using Nager.SmtpServerCore.Net;
 using Nager.SmtpServerCore.Protocol;
 using Nager.SmtpServerCore.Storage;
-using Nager.SmtpServerCore.Tests;
 using Nager.SmtpServerCore.Tests.Mocks;
 using System;
 using System.Diagnostics;
@@ -25,7 +23,7 @@ using System.Threading.Tasks;
 using Xunit;
 using SmtpResponse = Nager.SmtpServerCore.Protocol.SmtpResponse;
 
-namespace SmtpServer.Tests
+namespace Nager.SmtpServerCore.Tests
 {
     public class SmtpServerTests
     {
@@ -630,7 +628,7 @@ namespace SmtpServer.Tests
             serviceProvider.Add(MessageStore);
             serviceConfiguration?.Invoke(serviceProvider);
 
-            var server = new Nager.SmtpServerCore.SmtpServer(options.Build(), serviceProvider);
+            var server = new SmtpServer(options.Build(), serviceProvider);
             var smtpServerTask = server.StartAsync(CancellationTokenSource.Token);
 
             return new SmtpServerDisposable(server, () =>
