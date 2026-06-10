@@ -1,13 +1,14 @@
-# What is SmtpServer?
+# What is SmtpServerCore?
 
-[![NuGet](https://img.shields.io/nuget/v/SmtpServer.svg)](https://www.nuget.org/packages/SmtpServer/)
-
-**SmtpServer** is a lightweight yet powerful SMTP server implementation in C#.  
+**SmtpServerCore** is a lightweight yet powerful SMTP server implementation in C#.  
 Built entirely in .NET, it leverages the Task Parallel Library (TPL) for maximum performance.
+
+## Origin & Development
+**SmtpServerCore** is based on the original [SmtpServer library by cosullivan](https://github.com/cosullivan/SmtpServer). This repository represents an independent continuation and further development of the project, focusing on modern .NET standards and long-term maintainability.
 
 ## 🆕 What's New?
 
-Check the [Changelog](https://github.com/cosullivan/SmtpServer/blob/master/CHANGELOG.md)
+Check the [Changelog](https://github.com/tinohager/SmtpServerCore/blob/master/CHANGELOG.md)
 
 ## ⚡ Supported ESMTP Extensions
 
