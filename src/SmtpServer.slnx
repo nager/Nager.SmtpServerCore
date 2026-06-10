@@ -1,9 +1,0 @@
-<Solution>
-  <Folder Name="/Examples/">
-    <Project Path="../examples/SampleApp/SampleApp.csproj" />
-    <Project Path="../examples/WorkerService/WorkerService.csproj" />
-  </Folder>
-  <Project Path="SmtpServer.Benchmarks/SmtpServer.Benchmarks.csproj" />
-  <Project Path="SmtpServer.Tests/SmtpServer.Tests.csproj" />
-  <Project Path="SmtpServer/SmtpServer.csproj" />
-</Solution>

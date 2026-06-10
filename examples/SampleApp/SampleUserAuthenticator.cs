@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using SmtpServer;
-using SmtpServer.Authentication;
+using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.Authentication;
 
 namespace SampleApp
 {

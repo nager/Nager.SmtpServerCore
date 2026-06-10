@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
-using SmtpServer;
-using SmtpServer.ComponentModel;
-using SmtpServer.Tracing;
+using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.ComponentModel;
+using Nager.SmtpServerCore.Tracing;
 
 namespace SampleApp.Examples
 {
@@ -31,7 +31,7 @@ namespace SampleApp.Examples
             var serviceProvider = new ServiceProvider();
             serviceProvider.Add(new SampleUserAuthenticator());
 
-            var server = new SmtpServer.SmtpServer(options, serviceProvider);
+            var server = new Nager.SmtpServerCore.SmtpServer(options, serviceProvider);
             server.SessionCreated += OnSessionCreated;
             
             var serverTask = server.StartAsync(cancellationTokenSource.Token);

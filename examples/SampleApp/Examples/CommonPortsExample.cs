@@ -1,4 +1,4 @@
-﻿using SmtpServer;
+﻿using Nager.SmtpServerCore;
 using System;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;

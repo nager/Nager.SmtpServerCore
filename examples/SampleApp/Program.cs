@@ -1,20 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using SampleApp.Examples;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
-using MimeKit;
-using SampleApp.Examples;
-using SmtpServer;
-using SmtpServer.IO;
-using SmtpServer.Protocol;
-using SmtpServer.Text;
-using SmtpServer.ComponentModel;
-using SmtpServer.Net;
-using SmtpServer.Tracing;
 
 namespace SampleApp
 {

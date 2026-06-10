@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.ComponentModel;
+using Nager.SmtpServerCore.Tracing;
+using System;
 using System.Threading;
-using SmtpServer;
-using SmtpServer.ComponentModel;
-using SmtpServer.Tracing;
 
 namespace SampleApp.Examples
 {
@@ -18,7 +18,7 @@ namespace SampleApp.Examples
                 .CommandWaitTimeout(TimeSpan.FromSeconds(100))
                 .Build();
 
-            var server = new SmtpServer.SmtpServer(options, ServiceProvider.Default);
+            var server = new Nager.SmtpServerCore.SmtpServer(options, ServiceProvider.Default);
             server.SessionCreated += OnSessionCreated;
 
             var serverTask = server.StartAsync(cancellationTokenSource.Token);

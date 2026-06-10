@@ -6,11 +6,11 @@ using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using SmtpServer;
-using SmtpServer.ComponentModel;
-using SmtpServer.IO;
-using SmtpServer.Net;
-using SmtpServer.Text;
+using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.ComponentModel;
+using Nager.SmtpServerCore.IO;
+using Nager.SmtpServerCore.Net;
+using Nager.SmtpServerCore.Text;
 
 namespace SampleApp.Examples
 {
@@ -32,7 +32,7 @@ namespace SampleApp.Examples
             var serviceProvider = new ServiceProvider();
             serviceProvider.Add(new CustomEndpointListenerFactory());
 
-            var server = new SmtpServer.SmtpServer(options, serviceProvider);
+            var server = new SmtpServer(options, serviceProvider);
 
             var serverTask = server.StartAsync(cancellationTokenSource.Token);
 

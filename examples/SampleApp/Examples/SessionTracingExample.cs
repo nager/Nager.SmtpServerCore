@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.ComponentModel;
+using Nager.SmtpServerCore.Net;
+using Nager.SmtpServerCore.Tracing;
+using System;
 using System.Text;
 using System.Threading;
-using SmtpServer;
-using SmtpServer.ComponentModel;
-using SmtpServer.Net;
-using SmtpServer.Tracing;
 
 namespace SampleApp.Examples
 {
@@ -21,7 +21,7 @@ namespace SampleApp.Examples
                 .Port(9025)
                 .Build();
 
-            var server = new SmtpServer.SmtpServer(options, ServiceProvider.Default);
+            var server = new Nager.SmtpServerCore.SmtpServer(options, ServiceProvider.Default);
             
             server.SessionCreated += OnSessionCreated;
             server.SessionCompleted += OnSessionCompleted;

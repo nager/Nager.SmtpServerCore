@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SmtpServer\SmtpServer.csproj" />
+    <ProjectReference Include="..\..\src\Nager.SmtpServerCore\Nager.SmtpServerCore.csproj" />
   </ItemGroup>
 
 </Project>

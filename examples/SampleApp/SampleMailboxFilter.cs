@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.Mail;
+using Nager.SmtpServerCore.Net;
+using Nager.SmtpServerCore.Protocol;
+using Nager.SmtpServerCore.Storage;
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using SmtpServer;
-using SmtpServer.Mail;
-using SmtpServer.Net;
-using SmtpServer.Storage;
-using SmtpServer.Protocol;
 
 namespace SampleApp
 {

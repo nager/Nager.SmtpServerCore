@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.Authentication;
+using Nager.SmtpServerCore.ComponentModel;
+using Nager.SmtpServerCore.Protocol;
+using Nager.SmtpServerCore.Tracing;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using SmtpServer;
-using SmtpServer.Authentication;
-using SmtpServer.ComponentModel;
-using SmtpServer.Protocol;
-using SmtpServer.Tracing;
 
 namespace SampleApp.Examples
 {
@@ -30,7 +30,7 @@ namespace SampleApp.Examples
             var serviceProvider = new ServiceProvider();
             serviceProvider.Add(new AuthenticationHandler());
 
-            var server = new SmtpServer.SmtpServer(options, serviceProvider);
+            var server = new Nager.SmtpServerCore.SmtpServer(options, serviceProvider);
 
             server.SessionCreated += OnSessionCreated;
             server.SessionCompleted += OnSessionCompleted;

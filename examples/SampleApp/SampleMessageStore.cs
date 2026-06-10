@@ -2,9 +2,9 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using SmtpServer;
-using SmtpServer.Protocol;
-using SmtpServer.Storage;
+using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.Protocol;
+using Nager.SmtpServerCore.Storage;
 
 namespace SampleApp
 {

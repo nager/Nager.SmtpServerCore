@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
-using SmtpServer;
-using SmtpServer.Protocol;
+using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.Protocol;
 
 namespace SampleApp.Examples
 {
@@ -20,7 +20,7 @@ namespace SampleApp.Examples
             services.AddSingleton(options);
             services.AddTransient<ISmtpCommandFactory, CustomSmtpCommandFactory>();
 
-            var server = new SmtpServer.SmtpServer(options, services.BuildServiceProvider());
+            var server = new Nager.SmtpServerCore.SmtpServer(options, services.BuildServiceProvider());
 
             var serverTask = server.StartAsync(cancellationTokenSource.Token);
 

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.ComponentModel;
+using System;
 using System.Threading;
-using SmtpServer;
-using SmtpServer.ComponentModel;
 
 namespace SampleApp.Examples
 {
@@ -19,7 +19,7 @@ namespace SampleApp.Examples
             var serviceProvider = new ServiceProvider();
             serviceProvider.Add(new SampleMessageStore(Console.Out));
             
-            var server = new SmtpServer.SmtpServer(options, serviceProvider);
+            var server = new SmtpServer(options, serviceProvider);
             var serverTask = server.StartAsync(cancellationTokenSource.Token);
 
             SampleMailClient.Send(); 

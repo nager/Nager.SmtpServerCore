@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net10.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>Nager.SmtpServerCore</AssemblyName>
+    <RootNamespace>Nager.SmtpServerCore</RootNamespace>
+    <Version>10.0.1</Version>
+    <Description>High-performance, flexible SMTP server implementation for .NET with support for ESMTP, TLS, authentication, and custom message handling.</Description>
+    <Authors>Cain O'Sullivan; Tino Hager</Authors>
+    <Copyright>2015-2026</Copyright>
+    <RepositoryUrl>https://github.com/nager/Nager.SmtpServerCore</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/nager/Nager.SmtpServerCore</PackageProjectUrl>
+    <PackageTags>smtp smtpserver mailserver</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>A changelog is available at https://github.com/nager/Nager.SmtpServerCore/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Nager.SmtpServerCore.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Pipelines" Version="10.0.8" />
+  </ItemGroup>
+
+</Project>

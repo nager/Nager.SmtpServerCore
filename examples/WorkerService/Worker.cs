@@ -6,9 +6,9 @@ namespace WorkerService
 {
     public sealed class Worker : BackgroundService
     {
-        readonly SmtpServer.SmtpServer _smtpServer;
+        readonly Nager.SmtpServerCore.SmtpServer _smtpServer;
 
-        public Worker(SmtpServer.SmtpServer smtpServer)
+        public Worker(Nager.SmtpServerCore.SmtpServer smtpServer)
         {
             _smtpServer = smtpServer;
         }

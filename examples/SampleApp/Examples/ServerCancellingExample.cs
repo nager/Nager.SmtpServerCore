@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SmtpServer;
-using SmtpServer.ComponentModel;
+using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.ComponentModel;
 
 namespace SampleApp.Examples
 {
@@ -20,7 +20,7 @@ namespace SampleApp.Examples
             var serviceProvider = new ServiceProvider();
             serviceProvider.Add(new SampleMailboxFilter(TimeSpan.FromSeconds(5)));
 
-            var server = new SmtpServer.SmtpServer(options, serviceProvider);
+            var server = new SmtpServer(options, serviceProvider);
             server.SessionCreated += OnSessionCreated;
             server.SessionCompleted += OnSessionCompleted;
             server.SessionFaulted += OnSessionFaulted;

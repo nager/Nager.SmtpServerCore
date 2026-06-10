@@ -1,8 +1,9 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SmtpServer;
-using SmtpServer.Storage;
+using Nager.SmtpServerCore;
+using Nager.SmtpServerCore.Authentication;
+using Nager.SmtpServerCore.Storage;
 
 namespace WorkerService
 {
@@ -28,7 +29,7 @@ namespace WorkerService
                                     .Port(9025)
                                     .Build();
 
-                                return new SmtpServer.SmtpServer(options, provider.GetRequiredService<IServiceProvider>());
+                                return new Nager.SmtpServerCore.SmtpServer(options, provider.GetRequiredService<IServiceProvider>());
                             });
 
                         services.AddHostedService<Worker>();

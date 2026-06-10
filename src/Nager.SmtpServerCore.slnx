@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Examples/">
+    <Project Path="../examples/SampleApp/SampleApp.csproj" />
+    <Project Path="../examples/WorkerService/WorkerService.csproj" />
+  </Folder>
+  <Project Path="Nager.SmtpServerCore.Benchmarks/Nager.SmtpServerCore.Benchmarks.csproj" />
+  <Project Path="Nager.SmtpServerCore.Tests/Nager.SmtpServerCore.Tests.csproj" />
+  <Project Path="Nager.SmtpServerCore/Nager.SmtpServerCore.csproj" />
+</Solution>
