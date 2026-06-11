@@ -113,12 +113,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'H';
-                command[1] = 'E';
-                command[2] = 'L';
-                command[3] = 'O';
-
+                Span<char> command = ['H', 'E', 'L', 'O'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -172,12 +167,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'E';
-                command[1] = 'H';
-                command[2] = 'L';
-                command[3] = 'O';
-
+                Span<char> command = ['E', 'H', 'L', 'O'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -239,12 +229,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'M';
-                command[1] = 'A';
-                command[2] = 'I';
-                command[3] = 'L';
-
+                Span<char> command = ['M', 'A', 'I', 'L'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -260,12 +245,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'F';
-                command[1] = 'R';
-                command[2] = 'O';
-                command[3] = 'M';
-
+                Span<char> command = ['F', 'R', 'O', 'M'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -326,12 +306,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'R';
-                command[1] = 'C';
-                command[2] = 'P';
-                command[3] = 'T';
-
+                Span<char> command = ['R', 'C', 'P', 'T'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -347,10 +322,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[2];
-                command[0] = 'T';
-                command[1] = 'O';
-
+                Span<char> command = ['T', 'O'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -395,12 +367,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'D';
-                command[1] = 'A';
-                command[2] = 'T';
-                command[3] = 'A';
-
+                Span<char> command = ['D', 'A', 'T', 'A'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -443,12 +410,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'Q';
-                command[1] = 'U';
-                command[2] = 'I';
-                command[3] = 'T';
-
+                Span<char> command = ['Q', 'U', 'I', 'T'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -491,12 +453,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'N';
-                command[1] = 'O';
-                command[2] = 'O';
-                command[3] = 'P';
-
+                Span<char> command = ['N', 'O', 'O', 'P'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -541,12 +498,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'R';
-                command[1] = 'S';
-                command[2] = 'E';
-                command[3] = 'T';
-
+                Span<char> command = ['R', 'S', 'E', 'T'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -591,16 +543,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[8];
-                command[0] = 'S';
-                command[1] = 'T';
-                command[2] = 'A';
-                command[3] = 'R';
-                command[4] = 'T';
-                command[5] = 'T';
-                command[6] = 'L';
-                command[7] = 'S';
-
+                Span<char> command = ['S', 'T', 'A', 'R', 'T', 'T', 'L', 'S' ];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -682,12 +625,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[4];
-                command[0] = 'A';
-                command[1] = 'U';
-                command[2] = 'T';
-                command[3] = 'H';
-
+                Span<char> command = ['A', 'U', 'T', 'H'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -703,13 +641,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[5];
-                command[0] = 'L';
-                command[1] = 'O';
-                command[2] = 'G';
-                command[3] = 'I';
-                command[4] = 'N';
-
+                Span<char> command = ['L', 'O', 'G', 'I', 'N'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
@@ -725,13 +657,7 @@ namespace Nager.SmtpServerCore.Protocol
         {
             if (reader.TryMake(TryMakeText, out var text))
             {
-                Span<char> command = stackalloc char[5];
-                command[0] = 'P';
-                command[1] = 'L';
-                command[2] = 'A';
-                command[3] = 'I';
-                command[4] = 'N';
-
+                Span<char> command = ['P', 'L', 'A', 'I', 'N'];
                 return text.CaseInsensitiveStringEquals(ref command);
             }
 
