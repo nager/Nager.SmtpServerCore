@@ -14,6 +14,11 @@ namespace Nager.SmtpServerCore
         IMaxMessageSizeOptions MaxMessageSizeOptions { get; }
 
         /// <summary>
+        /// The maximum number of concurrent SMTP sessions allowed.
+        /// </summary>
+        int MaxConcurrentSessions { get; }
+
+        /// <summary>
         /// The maximum number of retries before quitting the session.
         /// </summary>
         int MaxRetryCount { get; }
@@ -37,11 +42,6 @@ namespace Nager.SmtpServerCore
         /// The timeout to use when waiting for a command from the client.
         /// </summary>
         TimeSpan CommandWaitTimeout { get; }
-
-        /// <summary>
-        /// The size of the buffer that is read from each call to the underlying network client.
-        /// </summary>
-        int NetworkBufferSize { get; }
 
         /// <summary>
         /// Gets the custom SMTP greeting message that the server sends immediately after a client connects,

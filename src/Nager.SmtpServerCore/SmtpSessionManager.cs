@@ -6,14 +6,26 @@ using System.Threading.Tasks;
 
 namespace Nager.SmtpServerCore
 {
-    internal sealed class SmtpSessionManager
+    internal sealed class SmtpSessionManager : IDisposable
     {
         readonly SmtpServer _smtpServer;
         readonly ConcurrentDictionary<Guid, SmtpSessionHandle> _sessions = new ConcurrentDictionary<Guid, SmtpSessionHandle>();
-        
-        internal SmtpSessionManager(SmtpServer smtpServer)
+        readonly SemaphoreSlim _sessionLimitSemaphore;
+        bool _disposed = false;
+
+        internal SmtpSessionManager(SmtpServer smtpServer, int maxConcurrentSessions)
         {
+            _sessionLimitSemaphore = new SemaphoreSlim(maxConcurrentSessions);
             _smtpServer = smtpServer;
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (_disposed) return;
+
+            _disposed = true;
+            _sessionLimitSemaphore.Dispose();
         }
 
         internal void Run(SmtpSessionContext sessionContext, CancellationToken cancellationToken)
@@ -32,6 +44,8 @@ namespace Nager.SmtpServerCore
             using var sessionTimeoutCancellationTokenSource = new CancellationTokenSource(handle.SessionContext.EndpointDefinition.SessionTimeout);
 
             using var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, sessionTimeoutCancellationTokenSource.Token);
+
+            await _sessionLimitSemaphore.WaitAsync(cancellationToken);
 
             try
             {
@@ -58,6 +72,8 @@ namespace Nager.SmtpServerCore
                 await handle.SessionContext.Pipe.Input.CompleteAsync();
                 
                 handle.SessionContext.Pipe.Dispose();
+
+                _sessionLimitSemaphore.Release();
             }
         }
 

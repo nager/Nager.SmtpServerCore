@@ -10,7 +10,7 @@ namespace Nager.SmtpServerCore
     /// <summary>
     /// Smtp Server
     /// </summary>
-    public class SmtpServer
+    public class SmtpServer : IDisposable
     {
         /// <summary>
         /// Raised when a session has been created.
@@ -35,9 +35,10 @@ namespace Nager.SmtpServerCore
         readonly ISmtpServerOptions _options;
         readonly IServiceProvider _serviceProvider;
         readonly IEndpointListenerFactory _endpointListenerFactory;
-        readonly SmtpSessionManager _sessions;
+        readonly SmtpSessionManager _sessionManager;
         readonly CancellationTokenSource _shutdownTokenSource = new CancellationTokenSource();
         readonly TaskCompletionSource<bool> _shutdownTask = new TaskCompletionSource<bool>();
+        bool _disposed = false;
 
         /// <summary>
         /// Constructor.
@@ -48,8 +49,37 @@ namespace Nager.SmtpServerCore
         {
             _options = options;
             _serviceProvider = serviceProvider;
-            _sessions = new SmtpSessionManager(this);
+            _sessionManager = new SmtpSessionManager(this, options.MaxConcurrentSessions);
             _endpointListenerFactory = serviceProvider.GetServiceOrDefault(EndpointListenerFactory.Default);
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <inheritdoc/>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed) return;
+
+            if (disposing)
+            {
+                try
+                {
+                    _shutdownTokenSource.Cancel();
+                }
+                catch (ObjectDisposedException)
+                {
+                }
+
+                _sessionManager.Dispose();
+                _shutdownTokenSource.Dispose();
+            }
+
+            _disposed = true;
         }
 
         /// <summary>
@@ -101,7 +131,7 @@ namespace Nager.SmtpServerCore
 
             _shutdownTask.TrySetResult(true);
 
-            await _sessions.WaitAsync().ConfigureAwait(false);
+            await _sessionManager.WaitAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -144,7 +174,7 @@ namespace Nager.SmtpServerCore
 
                 if (sessionContext.Pipe != null)
                 {
-                    _sessions.Run(sessionContext, cancellationTokenSource.Token);
+                    _sessionManager.Run(sessionContext, cancellationTokenSource.Token);
                 }
             }
         }

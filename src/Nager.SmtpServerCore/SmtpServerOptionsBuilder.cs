@@ -19,10 +19,10 @@ namespace Nager.SmtpServerCore
             var serverOptions = new SmtpServerOptions
             {
                 MaxMessageSizeOptions = new MaxMessageSizeOptions(),
+                MaxConcurrentSessions = 100,
                 Endpoints = new List<IEndpointDefinition>(),
                 MaxRetryCount = 5,
                 MaxAuthenticationAttempts = 3,
-                NetworkBufferSize = 128,
                 CommandWaitTimeout = TimeSpan.FromMinutes(5),
                 CustomSmtpGreeting = null,
             };
@@ -111,6 +111,18 @@ namespace Nager.SmtpServerCore
         }
 
         /// <summary>
+        /// Sets the maximum number of concurrent SMTP sessions.
+        /// </summary>
+        /// <param name="maxConcurrentSessions">The maximum number of concurrent sessions to allow.</param>
+        /// <returns>A OptionsBuilder to continue building on.</returns>
+        public SmtpServerOptionsBuilder MaxConcurrentSessions(int maxConcurrentSessions)
+        {
+            _setters.Add(options => options.MaxConcurrentSessions = maxConcurrentSessions);
+
+            return this;
+        }
+
+        /// <summary>
         /// Sets the maximum number of retries for a failed command.
         /// </summary>
         /// <param name="value">The maximum number of retries allowed for a failed command.</param>
@@ -130,18 +142,6 @@ namespace Nager.SmtpServerCore
         public SmtpServerOptionsBuilder MaxAuthenticationAttempts(int value)
         {
             _setters.Add(options => options.MaxAuthenticationAttempts = value);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the size of the buffer for each read operation.
-        /// </summary>
-        /// <param name="value">The buffer size for each read operation.</param>
-        /// <returns>An OptionsBuilder to continue building on.</returns>
-        public SmtpServerOptionsBuilder NetworkBufferSize(int value)
-        {
-            _setters.Add(options => options.NetworkBufferSize = value);
 
             return this;
         }
@@ -179,51 +179,31 @@ namespace Nager.SmtpServerCore
 
         class SmtpServerOptions : ISmtpServerOptions
         {
-            /// <summary>
-            /// Gets or sets the maximum message size option.
-            /// </summary>
+            /// <inheritdoc/>
             public IMaxMessageSizeOptions MaxMessageSizeOptions { get; set; }
 
-            /// <summary>
-            /// The maximum number of retries before quitting the session.
-            /// </summary>
+            /// <inheritdoc/>
+            public int MaxConcurrentSessions { get; set; }
+
+            /// <inheritdoc/>
             public int MaxRetryCount { get; set; }
 
-            /// <summary>
-            /// The maximum number of authentication attempts.
-            /// </summary>
+            /// <inheritdoc/>
             public int MaxAuthenticationAttempts { get; set; }
 
-            /// <summary>
-            /// Gets or sets the SMTP server name.
-            /// </summary>
+            /// <inheritdoc/>
             public string ServerName { get; set; }
 
-            /// <summary>
-            /// Gets or sets the endpoint to listen on.
-            /// </summary>
+            /// <inheritdoc/>
             internal List<IEndpointDefinition> Endpoints { get; set; }
 
-            /// <summary>
-            /// Gets or sets the endpoint to listen on.
-            /// </summary>
+            /// <inheritdoc/>
             IReadOnlyList<IEndpointDefinition> ISmtpServerOptions.Endpoints => Endpoints;
 
-            /// <summary>
-            /// The timeout to use when waiting for a command from the client.
-            /// </summary>
+            /// <inheritdoc/>
             public TimeSpan CommandWaitTimeout { get; set; }
 
-            /// <summary>
-            /// The size of the buffer that is read from each call to the underlying network client.
-            /// </summary>
-            public int NetworkBufferSize { get; set; }
-
-            /// <summary>
-            /// Gets or sets the custom greeting message sent by the server in response to the initial SMTP connection.
-            /// This message is returned after the client connects and before any commands are issued (e.g., "220 mail.example.com v1.0 ESMTP ready").
-            /// If not set, a default greeting will be used.
-            /// </summary>
+            /// <inheritdoc/>
             public Func<ISessionContext, string> CustomSmtpGreeting { get; set; }
         }
 
