@@ -537,8 +537,8 @@ namespace Nager.SmtpServerCore.Tests
                 new X509BasicConstraintsExtension(true, false, 0, true)
             );
 
-            DateTimeOffset notBefore = DateTimeOffset.UtcNow;
-            DateTimeOffset notAfter = notBefore.AddYears(validityPeriodInYears);
+            var notBefore = DateTimeOffset.UtcNow;
+            var notAfter = notBefore.AddYears(validityPeriodInYears);
 
             X509Certificate2 certificate = certificateRequest.CreateSelfSigned(notBefore, notAfter);
 

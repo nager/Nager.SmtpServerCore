@@ -3,8 +3,8 @@ using Nager.SmtpServerCore.IO;
 using Nager.SmtpServerCore.Mail;
 using Nager.SmtpServerCore.Protocol;
 using Nager.SmtpServerCore.Storage;
+using Nager.SmtpServerCore.Tests.Mocks;
 using System;
-using System.Buffers;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -17,7 +17,7 @@ namespace Nager.SmtpServerCore.Tests
     /// Verifies how <see cref="DataCommand"/> and <see cref="SmtpSession"/> translate the outcome of
     /// <see cref="IMessageStore.SaveAsync"/> into the SMTP reply the client receives.
     /// </summary>
-    public sealed class DataCommandTests
+    public sealed partial class DataCommandTests
     {
         const string Message = "Subject: test\r\n\r\nHello World\r\n";
         const string EndOfData = ".\r\n";
@@ -112,9 +112,9 @@ namespace Nager.SmtpServerCore.Tests
         sealed class SmtpTestSession
         {
             readonly SmtpSessionContext _context;
-            readonly FakeClientStream _client;
+            readonly MockClientStream _client;
 
-            SmtpTestSession(SmtpSessionContext context, FakeClientStream client)
+            SmtpTestSession(SmtpSessionContext context, MockClientStream client)
             {
                 _context = context;
                 _client = client;
@@ -125,7 +125,7 @@ namespace Nager.SmtpServerCore.Tests
                 IMessageStore messageStore,
                 Action<SmtpServerOptionsBuilder>? configure = null)
             {
-                var client = new FakeClientStream(clientInput);
+                var client = new MockClientStream(clientInput);
 
                 var serviceProvider = new ServiceProvider();
                 serviceProvider.Add(messageStore);
@@ -153,47 +153,6 @@ namespace Nager.SmtpServerCore.Tests
 
             public Task RunSessionAsync()
                 => new SmtpSession(_context).RunAsync(CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Stands in for the network connection: reads return the scripted client input,
-        /// writes are recorded as the server output.
-        /// </summary>
-        sealed class FakeClientStream : Stream
-        {
-            readonly MemoryStream _clientInput;
-            readonly MemoryStream _serverOutput = new MemoryStream();
-
-            public FakeClientStream(string clientInput)
-            {
-                _clientInput = new MemoryStream(Encoding.ASCII.GetBytes(clientInput));
-            }
-
-            public string ServerOutput => Encoding.ASCII.GetString(_serverOutput.ToArray());
-
-            public override int Read(byte[] buffer, int offset, int count) => _clientInput.Read(buffer, offset, count);
-            public override void Write(byte[] buffer, int offset, int count) => _serverOutput.Write(buffer, offset, count);
-            public override void Flush() { }
-            public override bool CanRead => true;
-            public override bool CanSeek => false;
-            public override bool CanWrite => true;
-            public override long Length => throw new NotSupportedException();
-            public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
-            public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
-            public override void SetLength(long value) => throw new NotSupportedException();
-        }
-
-        sealed class ThrowingMessageStore : MessageStore
-        {
-            readonly Exception _exception;
-
-            public ThrowingMessageStore(Exception exception)
-            {
-                _exception = exception;
-            }
-
-            public override Task<SmtpResponse> SaveAsync(ISessionContext context, IMessageTransaction transaction, ReadOnlySequence<byte> buffer, CancellationToken cancellationToken)
-                => throw _exception;
         }
     }
 }

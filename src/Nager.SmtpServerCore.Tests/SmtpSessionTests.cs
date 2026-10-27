@@ -1,9 +1,8 @@
 ﻿using Nager.SmtpServerCore.ComponentModel;
 using Nager.SmtpServerCore.IO;
+using Nager.SmtpServerCore.Tests.Mocks;
 using System;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -18,7 +17,7 @@ namespace Nager.SmtpServerCore.Tests
 
         static async Task<string[]> RunSessionAsync(string clientInput, int maxRetryCount)
         {
-            var client = new FakeClientStream(clientInput);
+            var client = new MockClientStream(clientInput);
 
             var options = new SmtpServerOptionsBuilder().ServerName("localhost").MaxRetryCount(maxRetryCount).Build();
 
@@ -65,34 +64,6 @@ namespace Nager.SmtpServerCore.Tests
             Assert.Equal(2, replies.Length);
             Assert.All(replies, reply => Assert.StartsWith("501 ", reply));
             Assert.EndsWith("0 retry(ies) remaining.", replies.Last());
-        }
-
-        /// <summary>
-        /// Stands in for the network connection: reads return the scripted client input,
-        /// writes are recorded as the server output.
-        /// </summary>
-        sealed class FakeClientStream : Stream
-        {
-            readonly MemoryStream _clientInput;
-            readonly MemoryStream _serverOutput = new MemoryStream();
-
-            public FakeClientStream(string clientInput)
-            {
-                _clientInput = new MemoryStream(Encoding.ASCII.GetBytes(clientInput));
-            }
-
-            public string ServerOutput => Encoding.ASCII.GetString(_serverOutput.ToArray());
-
-            public override int Read(byte[] buffer, int offset, int count) => _clientInput.Read(buffer, offset, count);
-            public override void Write(byte[] buffer, int offset, int count) => _serverOutput.Write(buffer, offset, count);
-            public override void Flush() { }
-            public override bool CanRead => true;
-            public override bool CanSeek => false;
-            public override bool CanWrite => true;
-            public override long Length => throw new NotSupportedException();
-            public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
-            public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
-            public override void SetLength(long value) => throw new NotSupportedException();
         }
     }
 }

@@ -26,8 +26,11 @@ namespace Nager.SmtpServerCore.Tests
             serviceProvider.Add(new MockUserAuthenticator(username: "test", password: "1234"));
             var smtpServerOptions = new SmtpServerOptionsBuilder().Build();
             var endpointDefinitions = new EndpointDefinitionBuilder().Build();
-            var smtpSessionContext = new SmtpSessionContext(serviceProvider, smtpServerOptions, endpointDefinitions);
-            smtpSessionContext.Pipe = new SecurableDuplexPipe(memoryStream, () => { });
+
+            var smtpSessionContext = new SmtpSessionContext(serviceProvider, smtpServerOptions, endpointDefinitions)
+            {
+                Pipe = new SecurableDuplexPipe(memoryStream, () => { })
+            };
 
             return smtpSessionContext;
         }
@@ -39,8 +42,11 @@ namespace Nager.SmtpServerCore.Tests
             var serviceProvider = new ServiceProvider();
             var smtpServerOptions = new SmtpServerOptionsBuilder().Build();
             var endpointDefinitions = new EndpointDefinitionBuilder().Build();
-            var smtpSessionContext = new SmtpSessionContext(serviceProvider, smtpServerOptions, endpointDefinitions);
-            smtpSessionContext.Pipe = new SecurableDuplexPipe(memoryStream, () => { });
+
+            var smtpSessionContext = new SmtpSessionContext(serviceProvider, smtpServerOptions, endpointDefinitions)
+            {
+                Pipe = new SecurableDuplexPipe(memoryStream, () => { })
+            };
 
             return smtpSessionContext;
         }
