@@ -16,6 +16,11 @@ namespace Nager.SmtpServerCore
         public const int DefaultMaxLineLength = 8192;
 
         /// <summary>
+        /// The default maximum message size in bytes (25 MB).
+        /// </summary>
+        public const int DefaultMaxMessageSize = 25 * 1024 * 1024;
+
+        /// <summary>
         /// Builds the options that have been set and returns the built instance.
         /// </summary>
         /// <returns>The server options that have been set.</returns>
@@ -23,7 +28,7 @@ namespace Nager.SmtpServerCore
         {
             var serverOptions = new SmtpServerOptions
             {
-                MaxMessageSizeOptions = new MaxMessageSizeOptions(),
+                MaxMessageSizeOptions = new MaxMessageSizeOptions(MaxMessageSizeHandling.Strict, DefaultMaxMessageSize),
                 MaxConcurrentSessions = 100,
                 Endpoints = new List<IEndpointDefinition>(),
                 MaxRetryCount = 5,
@@ -107,11 +112,16 @@ namespace Nager.SmtpServerCore
         /// <summary>
         /// Sets the maximum message size.
         /// </summary>
-        /// <param name="length">The maximum message size to allow in bytes.</param>
+        /// <param name="length">The maximum message size to allow in bytes, 0 for no limit.</param>
         /// <param name="handling">The handling type.</param>
         /// <returns>A OptionsBuilder to continue building on.</returns>
-        public SmtpServerOptionsBuilder MaxMessageSize(int length, MaxMessageSizeHandling handling = MaxMessageSizeHandling.Ignore)
+        public SmtpServerOptionsBuilder MaxMessageSize(int length, MaxMessageSizeHandling handling = MaxMessageSizeHandling.Strict)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length), "The maximum message size must not be negative.");
+            }
+
             _setters.Add(options => options.MaxMessageSizeOptions = new MaxMessageSizeOptions(handling, length));
 
             return this;

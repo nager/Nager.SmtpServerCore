@@ -6,7 +6,7 @@
     public enum MaxMessageSizeHandling
     {
         /// <summary>
-        /// Use the size limit for the SIZE extension of ESMTP
+        /// Use the size limit only for the SIZE extension of ESMTP, the amount of data a client sends is not limited
         /// </summary>
         Ignore = 0,
 

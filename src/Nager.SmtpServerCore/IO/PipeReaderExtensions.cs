@@ -38,7 +38,9 @@ namespace Nager.SmtpServerCore.IO
 
             while (read.IsCanceled == false && read.IsCompleted == false && read.Buffer.IsEmpty == false)
             {
-                if (maxMessageSizeOptions.Handling == MaxMessageSizeHandling.Strict && read.Buffer.Length > maxMessageSizeOptions.Length)
+                if (maxMessageSizeOptions.Handling == MaxMessageSizeHandling.Strict &&
+                    maxMessageSizeOptions.Length > 0 &&
+                    read.Buffer.Length > maxMessageSizeOptions.Length)
                 {
                     throw new SmtpResponseException(SmtpResponse.MaxMessageSizeExceeded, true);
                 }
